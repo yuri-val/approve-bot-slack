@@ -85,4 +85,4 @@ On Slack client, "invite" your bot to appropriate channels. The bot cannot post 
 
 ## The app sequence diagram
 
-![dialog](images/diagram_approval_flow.png)
+![dialog](https://github.com/slackapi/template-announcement-approvals/blob/master/images/diagram_approval_flow.png?raw=true)
