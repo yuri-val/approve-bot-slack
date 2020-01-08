@@ -9,7 +9,7 @@ This app lets its bot to post an approved message into a public channel- A user 
 
 User A ("girlie_mac") wants to announce about donuts on `#random` channel, and User B ("Slack Boss") approves it:
 
-![announcements_approvals](images/demo_approval_flow.gif)
+![announcements_approvals](https://github.com/slackapi/template-announcement-approvals/blob/master/images/demo_approval_flow.gif?raw=true)
 
 ## API & Features
 
