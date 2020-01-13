@@ -3,7 +3,7 @@
 ---
 ## Changes made in January 2020
 
-### Modals
+### Bot scopes
 
 *Major updates!: This requires to update your scopes in App Management!*
 
