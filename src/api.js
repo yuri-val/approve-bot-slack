@@ -42,12 +42,16 @@ const getChannels = async (userId, channels, cursor) => {
 
 const requestAnnouncement = async (user, submission) => {
   // Send the approver a direct message with "Approve" and "Reject" buttons 
-  let res = await callAPIMethodPost('im.open', {
-    user: submission.approver
+  submission.approvers.forEach(async approver => {
+    let res = await callAPIMethodPost('im.open', {
+      user: approver
+    })
+    console.log(res);
+    submission.requester = user.id;
+    submission.channel = res.channel.id;
+    await callAPIMethodPost('chat.postMessage', payloads.approve(submission));
   })
-  submission.requester = user.id;
-  submission.channel = res.channel.id;
-  await callAPIMethodPost('chat.postMessage', payloads.approve(submission));
+  
 };
 
 const rejectAnnouncement = async (payload, announcement) => {
@@ -80,13 +84,15 @@ const postAnnouncement = async (payload, announcement) => {
   });
 
   announcement.channels.forEach(channel => {
-    callAPIMethodPost('chat.postMessage', payloads.announcement({
-      channel: channel,
-      title: announcement.title,
-      details: announcement.details,
-      requester: announcement.requester,
-      approver: announcement.approver
-    }));
+    announcement.approvers.forEach(approver => {
+      callAPIMethodPost('chat.postMessage', payloads.announcement({
+        channel: channel,
+        title: announcement.title,
+        details: announcement.details,
+        requester: announcement.requester,
+        approver: approver
+      }));
+    });
   })
 }
 
