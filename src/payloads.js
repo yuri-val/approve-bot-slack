@@ -118,7 +118,7 @@ module.exports = {
                     },
                     element: {
                         action_id: 'approver_id',
-                        type: 'users_select'
+                        type: 'multi_users_select'
                     }
                 },
                 {
