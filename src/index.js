@@ -73,7 +73,11 @@ app.post('/interactions', async (req, res) => {
 
   const payload = JSON.parse(req.body.payload);
   
-  db.get('users').find({id: payload.user.id}).assign(payload.user).write();
+  if (!db.get('users').find({id: payload.user.id}).value()){
+    db.get('users').push(payload.user).write();
+  } else {
+    db.get('users').find({id: payload.user.id}).assign(payload.user).write();
+  };
 
   if (payload.type === 'block_actions') {
     // acknowledge the event before doing heavy-lifting on our servers
@@ -102,12 +106,12 @@ app.post('/interactions', async (req, res) => {
       case 'approve':
         const data_approve = JSON.parse(action.value);
         await api.postAnnouncement(payload, data_approve);
-        db.get('approvings').push({id: ID(), order_id: data_approve.id, user_id: payload.user.id, action: action.action_id});
+        db.get('approvings').push({id: ID(), order_id: data_approve.id, user_id: payload.user.id, action: action.action_id}).write();
         break;
       case 'reject':
         const data_reject = JSON.parse(action.value);
         await api.rejectAnnouncement(payload, data_reject);
-        db.get('approvings').push({id: ID(), order_id: data_reject.id, user_id: payload.user.id, action: action.action_id});
+        db.get('approvings').push({id: ID(), order_id: data_reject.id, user_id: payload.user.id, action: action.action_id}).write();
         break;
     }
   } else if (payload.type === 'view_submission') {
