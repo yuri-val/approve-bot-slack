@@ -1,0 +1,17 @@
+{
+  "orders": [
+    {
+      "title": "йцукенглмсмит",
+      "details": "ывапромсмить",
+      "approvers": [
+        "U6PV57AKT"
+      ],
+      "approverString": "<@U6PV57AKT>",
+      "channels": [
+        "C010DFR55QA"
+      ],
+      "channelString": "<#C010DFR55QA>"
+    }
+  ],
+  "approvings": []
+}

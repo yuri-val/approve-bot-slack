@@ -6,6 +6,14 @@ const api = require('./api');
 const payloads = require('./payloads');
 const signature = require('./verifySignature');
 
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+
+const adapter = new FileSync('db/file_db.json');
+const db = low(adapter);
+
+db.defaults({ orders: [], approvings: []}).write()
+
 const app = express();
 
 /*
@@ -70,6 +78,10 @@ app.post('/interactions', async (req, res) => {
     res.status(200).send();
 
     let action = payload.actions[0]
+    
+    console.log('payload:', payload);
+    console.log('action:', action);
+    
 
     switch (action.action_id) {
       case 'make_announcement':
@@ -192,7 +204,9 @@ const handleViewSubmission = async (payload, res) => {
         announcement
       }));
     case 'confirm_announcement':
-      await api.requestAnnouncement(payload.user, JSON.parse(payload.view.private_metadata));
+      const data = JSON.parse(payload.view.private_metadata);
+      await api.requestAnnouncement(payload.user, data);
+      db.get('orders').push(data).write();
       // show a final confirmation modal that the request has been sent
       return res.send(payloads.finish_announcement());
   }

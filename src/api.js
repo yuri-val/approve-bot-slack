@@ -83,16 +83,16 @@ const postAnnouncement = async (payload, announcement) => {
     blocks: null
   });
 
+  const approver = payload.user.id;
+  
   announcement.channels.forEach(channel => {
-    announcement.approvers.forEach(approver => {
-      callAPIMethodPost('chat.postMessage', payloads.announcement({
-        channel: channel,
-        title: announcement.title,
-        details: announcement.details,
-        requester: announcement.requester,
-        approver: approver
-      }));
-    });
+    callAPIMethodPost('chat.postMessage', payloads.announcement({
+      channel: channel,
+      title: announcement.title,
+      details: announcement.details,
+      requester: announcement.requester,
+      approver: approver
+    }));
   })
 }
 
