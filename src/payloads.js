@@ -200,7 +200,7 @@ module.exports = {
                         type: 'section',
                         text: {
                             type: 'mrkdwn',
-                            text: `<@${context.announcement.approver}>`
+                            text: context.announcement.approverString
                         }
                     },
                     {

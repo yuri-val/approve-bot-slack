@@ -172,6 +172,10 @@ const handleViewSubmission = async (payload, res) => {
   switch (payload.view.callback_id) {
     case 'request_announcement':
       const values = payload.view.state.values;
+      
+      let approvers = values.approver.approver_id.selected_users;
+      let approverString = approvers.map(user => `<@${user}>`).join(', ')
+      
       let channels = values.channel.channel_id.selected_options.map(channel => channel.value);
       let channelString = channels.map(channel => `<#${channel}>`).join(', ');
 
@@ -179,7 +183,8 @@ const handleViewSubmission = async (payload, res) => {
       let announcement = {
         title: values.title.title_id.value,
         details: values.details.details_id.value,
-        approver: values.approver.approver_id.selected_user,
+        approvers: approvers,
+        approverString: approverString,
         channels: channels,
         channelString: channelString
       }
